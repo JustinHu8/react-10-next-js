@@ -1,4 +1,4 @@
-import { items, Item } from '../../lib/data';
+import { items } from '../../lib/data';
 import { paginate } from '../../lib/paginate';
 import Pagination from '../../components/Pagination';
 
@@ -29,6 +29,9 @@ export default function SSGPage({ params }: SSGPageProps) {
 }
 
 // Generate static params for each page during the build
+// This function is a indicator of SSG in the app/ directory 
+// It generates static parameters (params) for the dynamic route at build time.
+// It creates paths for each pagniated page. e.g., ?page=1, ?page=2, etc.
 export async function generateStaticParams() {
   const totalPages = Math.ceil(items.length / pageSize);
   const paths = Array.from({ length: totalPages }, (_, i) => ({
@@ -39,4 +42,7 @@ export async function generateStaticParams() {
 }
 
 // Set ISR revalidation interval
+// The revalidate export defines an ISR interval
+// which means the static content is revalidated (rebuilt) every 60 seconds.
+// This enables your pages to be updated periodically without rebuilding the entire site.
 export const revalidate = 60; // Revalidate every 60 seconds

@@ -1,4 +1,4 @@
-"use client";
+"use client"; // This comment tells it is using the client rendering strategy
 
 import { FC, useEffect, useState } from 'react';
 
@@ -30,10 +30,15 @@ const Pagination: FC<PaginationProps> = ({ currentPage, totalPages, onPageChange
 );
 
 export default function ClientRenderedPage() {
+  // CSR relies on hooks like useState and useEffect to manage state and handle side effects (e.g., fetching data) on the client.
   const [items, setItems] = useState<Item[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [paginatedItems, setPaginatedItems] = useState<Item[]>([]);
 
+  // useEffect fetches data and updates paginatedItems dynamically
+  // The fetchData function is invoked inside a useEffect hook
+  // SSR and SSG would fetch data on the server and pass it as props
+  // but here data is managed entirely within the client.
   useEffect(() => {
     // Simulate fetching data on the client
     const fetchData = async () => {
@@ -47,6 +52,7 @@ export default function ClientRenderedPage() {
     fetchData();
   }, []);
 
+  // Panigation logic on the client
   // Update paginated items whenever items or current page changes
   useEffect(() => {
     const startIndex = (currentPage - 1) * pageSize;
